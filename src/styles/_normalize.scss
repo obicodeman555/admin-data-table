@@ -1,11 +1,18 @@
-a,button{
+a,
+button {
     font-family: inherit;
     color: inherit;
     outline: none;
-    border: 1px solid transparent;
-
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
 }
 
-a{
+a {
     text-decoration: none;
+}
+
+ul li,
+ol li {
+    list-style-type: none;
 }

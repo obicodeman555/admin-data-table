@@ -1,3 +1,69 @@
-.admin-data-table{
+@use "../styles/variables" as var;
+
+.admin-data-table {
     padding: 3rem 0;
+}
+
+
+
+.data-table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var.$line-stroke-light;
+}
+
+//parent wraper for tab buttons
+.tabs {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: -1px;
+
+    //spacing
+    &>li:not(:first-child) {
+        margin-left: 2rem;
+        font-size: 1.4rem;
+    }
+
+    &>li {
+        display: flex;
+        align-items: center;
+    }
+
+
+}
+
+.tab-button {
+    text-transform: capitalize;
+    padding: 1rem;
+    color: var.$inactive-text-color;
+    border-bottom: 2px solid transparent;
+
+    &.selected {
+        border-bottom: 2px solid #000;
+        color: #000;
+    }
+}
+
+
+//payable amount details
+.total-payable {
+    display: flex;
+    align-items: baseline;
+
+    gap: .5rem;
+
+    &__text {
+        font-size: 1.2rem;
+        color: var.$inactive-text-color;
+    }
+
+    &__amount strong {
+        color: var.$primary-purple;
+    }
+
+    &__amount {
+        color: grey;
+    }
 }
