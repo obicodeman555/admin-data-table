@@ -1,12 +1,11 @@
-import AdminDataTable from "./pages/AdminDataTable"
-
+import AdminDataTable from './pages/AdminDataTable';
 
 function App() {
   return (
     <div className="App">
       <main className="container">
         <AdminDataTable />
-        </main>
+      </main>
     </div>
   );
 }
