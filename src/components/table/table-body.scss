@@ -1,9 +1,16 @@
+@use '../../styles/variables' as var;
+
 span.rotate {
-    transition: transform .35s ease-in;
-    transform: rotate(180deg);
+  transition: transform 0.35s ease-in;
+  transform: rotate(180deg);
 }
 
 span.remove-rotate {
-    transition: transform .35s ease-in;
-    transform: unset
+  transition: transform 0.35s ease-in;
+  transform: unset;
+}
+
+.table__row.greyish-background {
+  transition: background-color 0.5s ease-in;
+  background-color: var.$background-stripe-color;
 }

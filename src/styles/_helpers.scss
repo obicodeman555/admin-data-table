@@ -1,4 +1,4 @@
-@use "./variables" as *;
+@use './variables' as *;
 
 .container {
   position: relative;
@@ -33,13 +33,12 @@
   }
 }
 
-
 .vertical-stack {
   display: flex;
   flex-direction: column;
 
-  &>*:not(:first-child) {
-    margin-top: .5rem;
+  & > *:not(:first-child) {
+    margin-top: 0.5rem;
   }
 }
 
@@ -53,7 +52,6 @@
   justify-content: end;
 }
 
-
 .flex-sm {
   flex: 0.5;
 }
@@ -65,7 +63,6 @@
 .flex-2 {
   flex: 2;
 }
-
 
 .flex-3 {
   flex: 3;
@@ -94,7 +91,6 @@
   color: $inactive-text-color;
 }
 
-
 .spacing-right-md {
   margin-right: 2rem;
 }
@@ -105,7 +101,6 @@
 
 .spacing-left-md {
   margin-left: 2.5rem;
-
 }
 
 .text-capitalize {
