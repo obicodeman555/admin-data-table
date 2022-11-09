@@ -11,9 +11,9 @@ import PrimaryButton from '../components/primary-button/PrimaryButton';
 function AdminDataTable() {
   const url = 'https://cornie-assessment.herokuapp.com/users/1aA407I1mWUc6Eg';
 
-  const tabs = Object.keys(paymentStatus);
+  const tabs = Object.values(paymentStatus);
   const [users, setUsers] = useState([]);
-
+  const [activeTab, setActiveTab] = useState(0);
   //data fetching
   useEffect(() => {
     async function getUsers() {
@@ -25,7 +25,16 @@ function AdminDataTable() {
     getUsers();
   }, []);
 
-  const payableAmountsInDollars = users
+  const handleActiveTab = (index) => {
+    setActiveTab(index);
+  };
+
+  const filteredUsers =
+    activeTab === 0
+      ? users
+      : users.filter((user) => user.paymentStatus === paymentStatus[activeTab]);
+
+  const payableAmountsInDollars = filteredUsers
     ?.filter((user) => user.paymentStatus !== 'paid')
     .map((payableAmount) => payableAmount.amountInCents / 100);
 
@@ -36,7 +45,8 @@ function AdminDataTable() {
   return (
     <div className="admin-data-table">
       <header className="data-table-header">
-        <Tabs group={tabs} />
+        <Tabs group={tabs} handleActiveTab={handleActiveTab}
+          activeTab={activeTab} />
         <TotalPayableAmount total={totalPayableAmounts} />
       </header>
       <section className="data-table__content">
@@ -51,7 +61,7 @@ function AdminDataTable() {
         </div>
         <div className="table-container">
           <TableHeader />
-          <TableBody users={users} />
+          <TableBody users={filteredUsers} />
         </div>
       </section>
     </div>

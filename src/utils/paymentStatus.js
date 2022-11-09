@@ -1,6 +1,6 @@
 export const paymentStatus = {
-  all: 'all',
-  paid: 'paid',
-  unpaid: 'unpaid',
-  overdue: 'overdue',
+  0: 'all',
+  1: 'paid',
+  2: 'unpaid',
+  3: 'overdue',
 };

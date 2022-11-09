@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
 
-const Tabs = ({ group }) => {
+const Tabs = ({ group, handleActiveTab }) => {
   const [paymentStatusIndex, setPaymentStatusIndex] = useState(0);
+
+
+  const handleClick = (index) => {
+    setPaymentStatusIndex(index);
+    handleActiveTab(index);
+  };
+
 
   return (
     <ul className="tabs">
@@ -13,7 +20,7 @@ const Tabs = ({ group }) => {
               i === paymentStatusIndex ? 'tab-button selected' : 'tab-button'
             }
             name={tab}
-            onClick={() => setPaymentStatusIndex(i)}
+            onClick={() => handleClick(i)}
           >
             {tab}
           </button>
