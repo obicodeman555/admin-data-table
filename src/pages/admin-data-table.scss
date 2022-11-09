@@ -166,7 +166,7 @@
 
 .table-head__icon {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .table-header {
@@ -253,4 +253,32 @@
     border-top: 1px solid var.$table-row-border-color;
 
 
+}
+
+.loading {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10rem;
+    gap: 2rem;
+
+    &>.loader {
+        width: 80px;
+        height: 80px;
+        border-radius: 100%;
+        border: 7px solid var.$primary-background-color;
+        border-left-color: var.$primary-purple;
+        animation: spin 1s ease-in;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0turn);
+    }
+
+    100% {
+        transform: rotate(1turn);
+    }
 }

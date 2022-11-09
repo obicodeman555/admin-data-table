@@ -9,42 +9,24 @@ import './admin-data-table.scss';
 import Tabs from '../components/tabs/Tabs';
 import TotalPayableAmount from "../components/total-payable-amounts/TotalPayableAmount"
 function AdminDataTable() {
+
   const url = 'https://cornie-assessment.herokuapp.com/users/1aA407I1mWUc6Eg';
+
+
   const tabs = Object.keys(paymentStatus);
-  const [users, setUsers] = useState(null);
-  const [statusGroup, setStatusGroup] = useState("");
-  const [filteredUsers, setFilteredUsers] = useState([])
+  const [users, setUsers] = useState([]);
+  const [hasDetails, setHasDetails] = useState(false)
+  // const [statusGroup, setStatusGroup] = useState("");
   //data fetching
   useEffect(() => {
     async function getUsers() {
       const resp = await fetch(url);
-      const data = await resp.json();
-      setUsers(data.data);
+      const result = await resp.json();
+      setUsers(result.data);
     }
 
     getUsers();
   }, []);
-
-  useEffect(() => {
-    function filterUsers() {
-
-      if (statusGroup === "all") {
-        setFilteredUsers(users)
-
-      }
-      const newUserStatusGroup = users?.filter(u => u.paymentStatus === statusGroup);
-
-      setFilteredUsers(newUserStatusGroup);
-    }
-
-    filterUsers()
-  }, [users, statusGroup])
-
-
-
-
-
-
 
 
   const payableAmountsInDollars = users?.filter((user) => user.paymentStatus !== 'paid')
@@ -56,10 +38,12 @@ function AdminDataTable() {
 
 
 
+
+
   return (
     <div className="admin-data-table">
       <header className="data-table-header">
-        <Tabs group={tabs} setStatusGroup={setStatusGroup} />
+        <Tabs group={tabs} />
         <TotalPayableAmount total={totalPayableAmounts} />
       </header>
       <section className="data-table__content">
@@ -105,171 +89,96 @@ function AdminDataTable() {
             </header>
           </div>
           <div className='table-body'>
-            {/*Group */}
+
             {
-              filteredUsers?.length === 0 ? users?.map((user, i) => {
+              users?.length === 0 ? (<div className='loading'>
+                <span className="loader"></span>
+                <span>Processing...</span>
+              </div>) :
+                users?.map((user) => {
 
-                return (
-                  <React.Fragment>
-                    <div className='table__row' key={user.id}>
-                      <div className='flex-1 hrztal-stack'>
-                        <span className='hrztal-stack checkbox'>
-                          <input type="checkbox" />
+                  return (
+                    <React.Fragment>
+                      <main className='table__row' key={user.id}>
+                        <div className='flex-1 hrztal-stack'>
+                          <span className='hrztal-stack checkbox'>
+                            <input type="checkbox" />
 
-                        </span>
-                        <span className='hrztal-stack spacing-left-md-2'>
-                          <Icon icon="ph:caret-circle-down" style={{ color: "#8B83BA", fontSize: '20px' }} />
-                        </span>
-                      </div>
-                      <div className='vertical-stack flex-3'>
-                        <span>{`${user.firstName} ${user.lastName}`}</span>
-                        <span className='text-sm-grey fw-300'>{user.email}</span>
-                      </div>
-                      <div className='vertical-stack flex-3'>
-                        <span className={`pill-tag ${user.userStatus === "active" ? "active" : user.userStatus === "inactive" && "in-active"}`}>
-                          <Icon icon="ci:dot-04-l" />
-                          <span className='text-xs text-capitalize'>{user.userStatus}</span>
-                        </span>
-                        <span>
-                          <span className='text-xs-grey'>Last login:</span>
-                          <span className="text-sm-grey"> {dateFormat(user.lastLogin)}</span>
-                        </span>
-                      </div>
-                      <div className='vertical-stack flex-2'>
-                        <span className={`pill-tag ${user.paymentStatus === "paid" ? "paid" : user.paymentStatus === "unpaid" ? "unpaid" : user.paymentStatus === "overdue" && "overdue"}`}>
-                          <Icon icon="ci:dot-04-l" />
-                          <span className='text-xs text-capitalize'>{user.paymentStatus}</span>
-                        </span>
-                        <span className='text-sm'>
-                          {user?.paymentStatus === "paid" ? `Paid on ${dateFormat(user.paidOn)}` : user?.paymentStatus === "unpaid" ? `Dues on ${dateFormat(user.paidOn)}` : user?.paymentStatus === "overdue" && `Dued on ${dateFormat(user.paidOn)}`}
-                        </span>
-                      </div>
-                      <div className='vertical-stack flex-1'>
-                        <span>
-                          ${((user.amountInCents) / 100).toFixed(2)}
-                        </span>
-                        <span className="text-sm-grey spacing-left-md fw-300">
-                          USD
-                        </span>
-                      </div>
-                      <div className='flex-1 hrztal-stack place-at-end'>
-                        <span className="text-xs-grey spacing-right-md">
-                          View More
-                        </span>
-                        <span className=''>
-                          <img src={threeDotsIcon} alt="three vertical dots icon" />
-                        </span>
-                      </div>
-                    </div>
-                    <div className='table-row__details'>
-                      <div className='table-activity__head'>
-                        <div className='table-activity__row'>
-                          <div className='flex-1'>date</div>
-                          <div className='flex-2'>user activity</div>
-                          <div className='flex-3 hrztal-stack'>
-                            <span>details</span>
-                            <Icon icon="charm:circle-warning" style={{ color: "#8B83BA", fontSize: '18px', marginLeft: "5px" }} />
-                          </div>
+                          </span>
+                          <span className='hrztal-stack spacing-left-md-2' onClick={() => setHasDetails(has => !has)}>
+                            <Icon icon="ph:caret-circle-down" style={{ color: "#8B83BA", fontSize: '20px' }} />
+                          </span>
                         </div>
-                      </div>
-                      <div className='table-activity__body'>
-                        {
-                          user.activities?.map((activity, i) => (
-                            <div className='table-activity__row table-activity__row--background-grey'>
-                              <span className='flex-1 text-md-grey '>
-                                {dateFormat(activity.date)}
-                              </span>
-                              <span className='flex-2 text-sm fw-300'>{activity.userActivity}</span>
-                              <span className='flex-3 text-sm fw-300'>{activity.details}</span>
-                            </div>
-                          ))
-                        }
-                      </div>
-                    </div>
-                  </React.Fragment>
-                )
-              }) : filteredUsers?.map((user, i) => {
-
-                return (
-                  <React.Fragment>
-                    <div className='table__row' key={user.id}>
-                      <div className='flex-1 hrztal-stack'>
-                        <span className='hrztal-stack checkbox'>
-                          <input type="checkbox" />
-
-                        </span>
-                        <span className='hrztal-stack spacing-left-md-2'>
-                          <Icon icon="ph:caret-circle-down" style={{ color: "#8B83BA", fontSize: '20px' }} />
-                        </span>
-                      </div>
-                      <div className='vertical-stack flex-3'>
-                        <span>{`${user.firstName} ${user.lastName}`}</span>
-                        <span className='text-sm-grey fw-300'>{user.email}</span>
-                      </div>
-                      <div className='vertical-stack flex-3'>
-                        <span className={`pill-tag ${user.userStatus === "active" ? "active" : user.userStatus === "inactive" && "in-active"}`}>
-                          <Icon icon="ci:dot-04-l" />
-                          <span className='text-xs text-capitalize'>{user.userStatus}</span>
-                        </span>
-                        <span>
-                          <span className='text-xs-grey'>Last login:</span>
-                          <span className="text-sm-grey"> {dateFormat(user.lastLogin)}</span>
-                        </span>
-                      </div>
-                      <div className='vertical-stack flex-2'>
-                        <span className={`pill-tag ${user.paymentStatus === "paid" ? "paid" : user.paymentStatus === "unpaid" ? "unpaid" : user.paymentStatus === "overdue" && "overdue"}`}>
-                          <Icon icon="ci:dot-04-l" />
-                          <span className='text-xs text-capitalize'>{user.paymentStatus}</span>
-                        </span>
-                        <span className='text-sm'>
-                          {user?.paymentStatus === "paid" ? `Paid on ${dateFormat(user.paidOn)}` : user?.paymentStatus === "unpaid" ? `Dues on ${dateFormat(user.paidOn)}` : user?.paymentStatus === "overdue" && `Dued on ${dateFormat(user.paidOn)}`}
-                        </span>
-                      </div>
-                      <div className='vertical-stack flex-1'>
-                        <span>
-                          ${((user.amountInCents) / 100).toFixed(2)}
-                        </span>
-                        <span className="text-sm-grey spacing-left-md fw-300">
-                          USD
-                        </span>
-                      </div>
-                      <div className='flex-1 hrztal-stack place-at-end'>
-                        <span className="text-xs-grey spacing-right-md">
-                          View More
-                        </span>
-                        <span className=''>
-                          <img src={threeDotsIcon} alt="three vertical dots icon" />
-                        </span>
-                      </div>
-                    </div>
-                    <div className='table-row__details'>
-                      <div className='table-activity__head'>
-                        <div className='table-activity__row'>
-                          <div className='flex-1'>date</div>
-                          <div className='flex-2'>user activity</div>
-                          <div className='flex-3 hrztal-stack'>
-                            <span>details</span>
-                            <Icon icon="charm:circle-warning" style={{ color: "#8B83BA", fontSize: '18px', marginLeft: "5px" }} />
-                          </div>
+                        <div className='vertical-stack flex-3'>
+                          <span>{`${user.firstName} ${user.lastName}`}</span>
+                          <span className='text-sm-grey fw-300'>{user.email}</span>
                         </div>
-                      </div>
-                      <div className='table-activity__body'>
-                        {
-                          user.activities?.map((activity, i) => (
-                            <div className='table-activity__row table-activity__row--background-grey'>
-                              <span className='flex-1 text-md-grey '>
-                                {dateFormat(activity.date)}
-                              </span>
-                              <span className='flex-2 text-sm fw-300'>{activity.userActivity}</span>
-                              <span className='flex-3 text-sm fw-300'>{activity.details}</span>
+                        <div className='vertical-stack flex-3'>
+                          <span className={`pill-tag ${user.userStatus === "active" ? "active" : user.userStatus === "inactive" && "in-active"}`}>
+                            <Icon icon="ci:dot-04-l" />
+                            <span className='text-xs text-capitalize'>{user.userStatus}</span>
+                          </span>
+                          <span>
+                            <span className='text-xs-grey'>Last login:</span>
+                            <span className="text-sm-grey"> {dateFormat(user.lastLogin)}</span>
+                          </span>
+                        </div>
+                        <div className='vertical-stack flex-2'>
+                          <span className={`pill-tag ${user.paymentStatus === "paid" ? "paid" : user.paymentStatus === "unpaid" ? "unpaid" : user.paymentStatus === "overdue" && "overdue"}`}>
+                            <Icon icon="ci:dot-04-l" />
+                            <span className='text-xs text-capitalize'>{user.paymentStatus}</span>
+                          </span>
+                          <span className='text-sm'>
+                            {user?.paymentStatus === "paid" ? `Paid on ${dateFormat(user.paidOn)}` : user?.paymentStatus === "unpaid" ? `Dues on ${dateFormat(user.paidOn)}` : user?.paymentStatus === "overdue" && `Dued on ${dateFormat(user.paidOn)}`}
+                          </span>
+                        </div>
+                        <div className='vertical-stack flex-1'>
+                          <span>
+                            ${((user.amountInCents) / 100).toFixed(2)}
+                          </span>
+                          <span className="text-sm-grey spacing-left-md fw-300">
+                            USD
+                          </span>
+                        </div>
+                        <div className='flex-1 hrztal-stack place-at-end'>
+                          <span className="text-xs-grey spacing-right-md">
+                            View More
+                          </span>
+                          <span className=''>
+                            <img src={threeDotsIcon} alt="three vertical dots icon" />
+                          </span>
+                        </div>
+                      </main>
+                      {
+                        hasDetails && (<div className='table-row__details'>
+                          <div className='table-activity__head'>
+                            <div className='table-activity__row'>
+                              <div className='flex-1'>date</div>
+                              <div className='flex-2'>user activity</div>
+                              <div className='flex-3 hrztal-stack'>
+                                <span>details</span>
+                                <Icon icon="charm:circle-warning" style={{ color: "#8B83BA", fontSize: '18px', marginLeft: "5px" }} />
+                              </div>
                             </div>
-                          ))
-                        }
-                      </div>
-                    </div>
-                  </React.Fragment>
-                )
-              })
+                          </div>
+                          <div className='table-activity__body'>
+                            {
+                              user.activities?.map((activity, i) => (
+                                <div className='table-activity__row table-activity__row--background-grey'>
+                                  <span className='flex-1 text-md-grey '>
+                                    {dateFormat(activity.date)}
+                                  </span>
+                                  <span className='flex-2 text-sm fw-300'>{activity.userActivity}</span>
+                                  <span className='flex-3 text-sm fw-300'>{activity.details}</span>
+                                </div>
+                              ))
+                            }
+                          </div>
+                        </div>)
+                      }
+                    </React.Fragment>
+                  )
+                })
             }
 
 
@@ -281,3 +190,4 @@ function AdminDataTable() {
 }
 
 export default AdminDataTable;
+
