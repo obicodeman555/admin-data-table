@@ -1,3 +1,5 @@
+@use "./variables" as *;
+
 .container {
   position: relative;
   margin-left: auto;
@@ -29,4 +31,83 @@
   .container {
     width: 1170px;
   }
+}
+
+
+.vertical-stack {
+  display: flex;
+  flex-direction: column;
+
+  &>*:not(:first-child) {
+    margin-top: .5rem;
+  }
+}
+
+.hrztal-stack {
+  display: flex;
+  align-items: center;
+}
+
+.place-at-end {
+  display: flex;
+  justify-content: end;
+}
+
+
+.flex-sm {
+  flex: 0.5;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.flex-2 {
+  flex: 2;
+}
+
+
+.flex-3 {
+  flex: 3;
+}
+
+.text-sm-grey {
+  font-size: 1.35rem;
+  color: $inactive-text-color;
+}
+
+.text-sm {
+  font-size: 1.4rem;
+}
+
+.text-xs-grey {
+  font-size: 1.25rem;
+  color: $inactive-text-color;
+}
+
+.text-xs {
+  font-size: 1.25rem;
+}
+
+
+
+.spacing-right-md {
+  margin-right: 2rem;
+}
+
+.spacing-left-md-2 {
+  margin-left: 1.5rem;
+}
+
+.spacing-left-md {
+  margin-left: 2.5rem;
+
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.fw-300 {
+  font-weight: 300;
 }
