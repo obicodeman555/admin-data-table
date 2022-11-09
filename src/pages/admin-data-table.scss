@@ -227,3 +227,26 @@
     height: 20px;
     border-radius: 10px;
 }
+
+
+//activity table
+.table-activity__head {
+    background-color: var.$primary-background-color;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var.$inactive-text-color;
+
+
+}
+
+.table-activity__row {
+    display: flex;
+    align-items: center;
+    padding: 2rem 5rem;
+
+    &--background-grey {
+        background-color: var.$background-stripe-color;
+    }
+
+}
