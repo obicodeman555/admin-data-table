@@ -269,7 +269,7 @@
         border-radius: 100%;
         border: 7px solid var.$primary-background-color;
         border-left-color: var.$primary-purple;
-        animation: spin 1s ease-in;
+        animation: spin 1s ease-in infinite;
     }
 }
 
@@ -279,6 +279,6 @@
     }
 
     100% {
-        transform: rotate(1turn);
+        transform: rotate(360deg);
     }
 }

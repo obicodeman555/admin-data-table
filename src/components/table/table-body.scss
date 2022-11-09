@@ -1,0 +1,9 @@
+span.rotate {
+    transition: transform .35s ease-in;
+    transform: rotate(180deg);
+}
+
+span.remove-rotate {
+    transition: transform .35s ease-in;
+    transform: unset
+}
