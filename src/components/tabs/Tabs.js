@@ -13,7 +13,7 @@ const Tabs = ({ group, handleActiveTab }) => {
   return (
     <ul className="tabs">
       {group.map((tab, i) => (
-        <li key={tab}>
+        <li key={i}>
           <button
             type="button"
             className={
