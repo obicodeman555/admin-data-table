@@ -39,12 +39,12 @@ function AdminDataTable() {
 
 
 
-  const filteredUsers =
+  const usersGroupForPaymentStatus =
     activeTab === 0
       ? users
       : users?.filter((user) => user.paymentStatus === paymentStatus[activeTab]);
 
-  const payableAmountsInDollars = filteredUsers?.filter((user) => user.paymentStatus !== 'paid').map((payableAmount) => payableAmount.amountInCents / 100);
+  const payableAmountsInDollars = usersGroupForPaymentStatus?.filter((user) => user.paymentStatus !== 'paid').map((payableAmount) => payableAmount.amountInCents / 100);
 
   const totalPayableAmounts = payableAmountsInDollars
     ?.reduce((previousValue, currentValue) => previousValue + currentValue, 0)
@@ -53,7 +53,7 @@ function AdminDataTable() {
   const searchUsers = () => {
     const keys = users?.map(user => Object.keys(user)).flat();
     const uniqueKeys = [...new Set(keys)]
-    return filteredUsers?.filter(user => uniqueKeys.some(key => `${user[key]}`.toLowerCase().includes(query)));
+    return usersGroupForPaymentStatus?.filter(user => uniqueKeys.some(key => `${user[key]}`.toLowerCase().includes(query)));
   }
 
 
@@ -71,13 +71,13 @@ function AdminDataTable() {
             <FilterButton />
             <Search searching={setQuery} />
           </div>
-          <div className="action-group__right">
+          <div>
             <PrimaryButton buttonText="pay dues" buttonType="button" />
           </div>
         </div>
         <div className="table-container">
           <TableHeader />
-          <TableBody users={query.length !== 0 ? searchUsers() : filteredUsers} />
+          <TableBody users={query.length !== 0 ? searchUsers() : usersGroupForPaymentStatus} />
         </div>
       </section>
     </div>

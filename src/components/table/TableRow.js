@@ -5,26 +5,31 @@ import { Icon } from '@iconify/react';
 import { dateFormat } from '../../utils/dateFormat';
 import threeDotsIcon from '../../assets/svg/vertical-three-dots.svg';
 
+
 const TableRow = ({ user }) => {
   const [hasDetails, setHasDetails] = useState(false);
   const [activeId, setActiveId] = useState();
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleClick = (id) => {
     setActiveId(id);
     setHasDetails((has) => !has);
   };
+
+  const checkHandler = () => {
+    setIsChecked(prev => !prev)
+  }
   return (
-    <main>
+    <main className={`${isChecked ? "purple-border-left" : null}`}>
       <article
-        className={`${
-          hasDetails && activeId === user.id
-            ? 'table__row greyish-background'
-            : 'table__row'
-        }`}
+        className={`${hasDetails && activeId === user.id
+          ? 'table__row greyish-background'
+          : 'table__row'
+          }`}
       >
         <div className="flex-1 hrztal-stack">
           <span className="hrztal-stack checkbox">
-            <input type="checkbox" />
+            <input type="checkbox" onChange={checkHandler} checked={isChecked} />
           </span>
           <ShowMoreDetailsToggler
             handleClick={handleClick}
@@ -39,11 +44,10 @@ const TableRow = ({ user }) => {
         </div>
         <div className="vertical-stack flex-3">
           <span
-            className={`pill-tag ${
-              user.userStatus === 'active'
-                ? 'active'
-                : user.userStatus === 'inactive' && 'in-active'
-            }`}
+            className={`pill-tag ${user.userStatus === 'active'
+              ? 'active'
+              : user.userStatus === 'inactive' && 'in-active'
+              }`}
           >
             <Icon icon="ci:dot-04-l" />
             <span className="text-xs text-capitalize">{user.userStatus}</span>
@@ -55,13 +59,12 @@ const TableRow = ({ user }) => {
         </div>
         <div className="vertical-stack flex-2">
           <span
-            className={`pill-tag ${
-              user.paymentStatus === 'paid'
-                ? 'paid'
-                : user.paymentStatus === 'unpaid'
+            className={`pill-tag ${user.paymentStatus === 'paid'
+              ? 'paid'
+              : user.paymentStatus === 'unpaid'
                 ? 'unpaid'
                 : user.paymentStatus === 'overdue' && 'overdue'
-            }`}
+              }`}
           >
             <Icon icon="ci:dot-04-l" />
             <span className="text-xs text-capitalize">
@@ -72,8 +75,8 @@ const TableRow = ({ user }) => {
             {user?.paymentStatus === 'paid'
               ? `Paid on ${dateFormat(user.paidOn)}`
               : user?.paymentStatus === 'unpaid'
-              ? `Dues on ${dateFormat(user.paidOn)}`
-              : user?.paymentStatus === 'overdue' &&
+                ? `Dues on ${dateFormat(user.paidOn)}`
+                : user?.paymentStatus === 'overdue' &&
                 `Dued on ${dateFormat(user.paidOn)}`}
           </span>
         </div>

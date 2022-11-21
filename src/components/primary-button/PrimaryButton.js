@@ -1,4 +1,5 @@
 import React from 'react';
+import "./primary-button.scss"
 
 const PrimaryButton = ({ buttonText, buttonType }) => {
   return (

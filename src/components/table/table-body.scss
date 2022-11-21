@@ -14,3 +14,18 @@ span.remove-rotate {
   transition: background-color 0.5s ease-in;
   background-color: var.$background-stripe-color;
 }
+
+
+.purple-border-left {
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    width: 4px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    background-color: var.$primary-purple;
+  }
+}

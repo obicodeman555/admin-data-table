@@ -19,12 +19,12 @@
   margin-bottom: -1px;
 
   //spacing
-  & > li:not(:first-child) {
+  &>li:not(:first-child) {
     margin-left: 2rem;
     font-size: 1.4rem;
   }
 
-  & > li {
+  &>li {
     display: flex;
     align-items: center;
   }
@@ -86,22 +86,7 @@
   max-width: 500px;
 }
 
-.action-group__right {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-  & > button {
-    background-color: var.$primary-purple;
-    color: #ffffff;
-    border-radius: var.$border-rad-2;
-    padding: 1.25rem;
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 1.6rem;
-    text-align: center;
-  }
-}
 
 .action-group__item,
 .data-table__filter button {
@@ -129,7 +114,7 @@
   max-width: 100%;
   border-radius: var.$border-rad-2;
 
-  & > input {
+  &>input {
     width: 100%;
     background-color: transparent;
     border: 1px solid transparent;
@@ -255,7 +240,7 @@
   padding: 10rem;
   gap: 2rem;
 
-  & > .loader {
+  &>.loader {
     width: 80px;
     height: 80px;
     border-radius: 100%;
